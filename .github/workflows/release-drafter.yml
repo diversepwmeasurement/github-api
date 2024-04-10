@@ -1,22 +1,18 @@
-
-name: Release Drafter
-
-on:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: read
-
 jobs:
   update_release_draft:
     permissions:
-      contents: write  # for release-drafter/release-drafter to create a github release
-      pull-requests: write  # for release-drafter/release-drafter to add label to PR
-    runs-on: ubuntu-latest
+      contents: write
+      pull-requests: write
+    runs-on: self-hosted
     steps:
-      - name: Release Drafter
-        uses: release-drafter/release-drafter@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+    - continue-on-error: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      name: Release Drafter
+      uses: release-drafter/release-drafter@v6
+name: Release Drafter
+on:
+  repository_dispatch:
+    types: trigger-ga___release-drafter.yml
+permissions:
+  contents: read
